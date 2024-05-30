@@ -39,6 +39,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Feed::class, mappedBy: 'author')]
     private Collection $feeds;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $followers = 0;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $following = 0;
+
     public function __construct()
     {
         $this->feeds = new ArrayCollection();
@@ -145,6 +151,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $feed->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFollowers(): ?int
+    {
+        return $this->followers;
+    }
+
+    public function setFollowers(?int $followers): static
+    {
+        $this->followers = $followers;
+
+        return $this;
+    }
+
+    public function getFollowing(): ?int
+    {
+        return $this->following;
+    }
+
+    public function setFollowing(?int $following): static
+    {
+        $this->following = $following;
 
         return $this;
     }
