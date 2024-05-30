@@ -4,10 +4,10 @@ namespace App\Entity;
 
 use App\Repository\FeedRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\UX\Turbo\Attribute\Broadcast;
+
 
 #[ORM\Entity(repositoryClass: FeedRepository::class)]
-#[Broadcast]
+
 class Feed
 {
     #[ORM\Id]
@@ -18,7 +18,7 @@ class Feed
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 1600)]
     private ?string $description = null;
 
     #[ORM\Column(nullable: true)]
