@@ -19,6 +19,7 @@ class FeedFixtures extends Fixture implements DependentFixtureInterface
         for ($i = 0; $i < 20; $i++) {
             $feed = new Feed();
             $feed->setTitle($faker->sentence);
+            $feed->setImage("https://picsum.photos/seed/" . $faker->word() . "/200/100");
             $feed->setDescription($faker->paragraph);
             $feed->setLiked($faker->numberBetween(0, 100));
             $feed->setShared($faker->numberBetween(0, 50));

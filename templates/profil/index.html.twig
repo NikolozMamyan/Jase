@@ -18,7 +18,7 @@
               </button>
             </div>
             <div class="ms-3" style="margin-top: 130px;">
-              <h5>Andy Horwitz</h5>
+              <h5>{{ user.firstName }}  {{user.lastName}}</h5>
               <p>New York</p>
             </div>
           </div>
@@ -29,11 +29,11 @@
                 <p class="small text-muted mb-0">Photos</p>
               </div>
               <div class="px-3">
-                <p class="mb-1 h5">1026</p>
+                <p class="mb-1 h5">{{user.Followers}}</p>
                 <p class="small text-muted mb-0">Followers</p>
               </div>
               <div>
-                <p class="mb-1 h5">478</p>
+                <p class="mb-1 h5">{{user.Following}}</p>
                 <p class="small text-muted mb-0">Following</p>
               </div>
             </div>

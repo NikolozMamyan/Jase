@@ -21,6 +21,12 @@
                         {{ form_widget(register.email, { 'attr': {'class': 'form-control mb-2'} } ) }}
                         {{ form_errors(register.email, { 'attr': {'class': 'danger mt-2'} } ) }}
 
+                         {{ form_label(register.firstName, 'firstName', { 'label_attr': {'class': 'form-label m-0'} }) }}
+                          {{ form_widget(register.firstName, { 'attr': {'class': 'form-control mb-2'} } ) }}
+
+                             {{ form_label(register.lastName, 'lastName', { 'label_attr': {'class': 'form-label m-0'} }) }}
+                        {{ form_widget(register.lastName, { 'attr': {'class': 'danger mt-2'} } ) }}
+
                         {{ form_label(register.plainPassword.first, 'Mot de passe', { 'label_attr': {'class': 'form-label m-0'} }) }}
                         {{ form_widget(register.plainPassword.first, { 'attr': {'class': 'form-control mb-2'} } ) }}
                         {{ form_errors(register.plainPassword.first, { 'attr': {'class': 'danger mt-2'} } ) }}
