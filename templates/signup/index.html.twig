@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SignupController!{% endblock %}
+
+{% block body %}
+   <main class="mt-5 container d-flex justify-content-around align-items-center">
+
+
+            <section>
+                <div class="card px-5 shadow bg-body-tertiary rounded">
+
+                      <h1 class="display-4 mb-5 text-center mt-2">Jase</h1>
+                <p class="lead">Inscrivez-vous pour voir les photos et vidéos de vos amis.</p>
+
+                    {{ form_start(register) }}
+
+                    <div class="d-flex flex-column">
+                      
+
+                        {{ form_label(register.email, 'E-mail', { 'label_attr': {'class': 'form-label m-0'} }) }}
+                        {{ form_widget(register.email, { 'attr': {'class': 'form-control mb-2'} } ) }}
+                        {{ form_errors(register.email, { 'attr': {'class': 'danger mt-2'} } ) }}
+
+                        {{ form_label(register.plainPassword.first, 'Mot de passe', { 'label_attr': {'class': 'form-label m-0'} }) }}
+                        {{ form_widget(register.plainPassword.first, { 'attr': {'class': 'form-control mb-2'} } ) }}
+                        {{ form_errors(register.plainPassword.first, { 'attr': {'class': 'danger mt-2'} } ) }}
+
+                        {{ form_label(register.plainPassword.second, 'Resaisir votre mot de passe', { 'label_attr': {'class': 'form-label m-0'} }) }}
+                        {{ form_widget(register.plainPassword.second, { 'attr': {'class': 'form-control mb-2'} } ) }}
+                        {{ form_errors(register.plainPassword.second, { 'attr': {'class': 'danger mt-2'} } ) }}
+
+                        <p class=" sk-password">Doit contenir au moins 8 caractères, dont au moins 1 lettre majuscule<br> et 1 chiffre</p>
+
+                          
+                    </div>
+
+    
+
+                    <button type="submit" class="nm-Button">S'inscrire</button>
+
+                    {{ form_end(register) }}
+
+                </div>
+            </section>
+    </main>
+{% endblock %}
