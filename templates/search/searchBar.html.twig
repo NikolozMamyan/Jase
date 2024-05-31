@@ -1,0 +1,5 @@
+{% block body %}
+    {{ form_start(form, {'attr': {'data-turbo': turbo ? 'true' : 'false', class: "d-flex"}}) }}
+    {{ form_widget(form.query) }}
+    {{ form_end(form) }}
+{% endblock %}

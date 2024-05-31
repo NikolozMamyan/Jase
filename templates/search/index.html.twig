@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="container-sm">
+    <div class="col-md-4">
+        {% if app.request.method == 'POST' %}
+            <div>
+                {% if users | length == 0 %}
+                    <h4 class="text-center mt-5">Aucun résultat pour votre recherche.</h4>
+                {% else %}
+                    <h5 class="mt-3 text-center">Vos résultats de recherche</h5>
+                    {% for user in users %}
+                        <div class="card mb-3">
+                            <div class="row g-0">
+                                <div class="col-md-2">
+                                    <img src="https://via.placeholder.com/80" class="img-fluid rounded-start" alt="{{ user.firstName }} {{ user.lastName }}">
+                                </div>
+                                <div class="col-md-10">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-1"><a href="{{ path('app_user', {id: user.id}) }}" class="text-decoration-none">{{ user.firstName }} {{ user.lastName }}</a></h5>
+                                        {# <p class="card-text mb-1"><small class="text-muted">{{ user.occupation }}</small></p>
+                                        <p class="card-text mb-1"><small class="text-muted">{{ user.location }}</small></p>
+                                        <p class="card-text mb-1"><small class="text-muted">{{ user.previousCompany }}</small></p> #}
+                                        <a href="#" class="btn btn-primary btn-sm">Message</a>
+                                        <a href="#" class="btn btn-outline-primary btn-sm">Suivre</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
