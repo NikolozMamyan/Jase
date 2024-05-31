@@ -8,24 +8,35 @@
   {% for f in feeds %}
     <div class="col">
       <div class="card">
-        <img src="{{f.image}}" class="card-img-top" alt="...">
+        <img src="{{ f.image }}" class="card-img-top" alt="...">
         <div class="card-body">
-          <h5 class="card-title">{{f.title}}</h5>
-          <p class="card-text">{{f.description}}</p>
+          <h5 class="card-title">{{ f.title }}</h5>
+          <p class="card-text">{{ f.description }}</p>
         </div>
         <div class="card-footer">
           <div class="d-flex justify-content-between">
             <div>
-              <button class="btn btn-outline-primary btn-sm"><i class="far fa-heart"></i> {{f.liked}}</button>
+              {% set userLiked = false %}
+              {% for like in f.likes %}
+                {% if like.user.id == app.user.id %}
+                  {% set userLiked = true %}
+          
+                {% endif %}
+              {% endfor %}
+              
+              <a href="{{ path('app_feed_liked', {id: f.id}) }}">
+                <button class="nm-Button-like {{ userLiked ? 'filled' : '' }}">
+                  <i class="fas fa-heart"></i> {{ f.likes|length }}
+                </button>
+              </a>
               <button class="btn btn-outline-primary btn-sm"><i class="far fa-comment"></i> Commenter</button>
             </div>
-            <button class="btn btn-outline-primary btn-sm"><i class="far fa-share-square"></i> {{f.shared}}</button>
+            <button class="btn btn-outline-primary btn-sm"><i class="far fa-share-square"></i> {{ f.shared }}</button>
           </div>
         </div>
       </div>
     </div>
-    {% endfor %}
-    <!-- Autres cartes ici -->
+  {% endfor %}
   </div>
 </div>
 {% endblock %}

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Feed;
+use App\Entity\Like;
 use App\Form\FeedType;
 use App\Repository\FeedRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -46,4 +47,40 @@ class FeedController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/feed/{id}/liked', name: 'app_feed_liked')]
+    public function feedLiked(EntityManagerInterface $entityManager, FeedRepository $feedRepo, int $id): Response
+    {
+        $user = $this->getUser();
+        $feed = $feedRepo->find($id);
+    
+        if (!$feed) {
+            throw $this->createNotFoundException('Publication non trouvée');
+        }
+    
+        // Vérifier si l'utilisateur a déjà liké ce feed
+        $existingLike = $entityManager->getRepository(Like::class)->findOneBy(['user' => $user, 'feed' => $feed]);
+    
+        if ($existingLike) {
+            // Supprimer le like existant
+            $entityManager->remove($existingLike);
+            $entityManager->flush();
+            $this->addFlash('success', 'Votre like a été retiré.');
+        } else {
+            // Ajouter un nouveau like
+            $like = new Like();
+            $like->setUser($user);
+            $like->setFeed($feed);
+    
+            $entityManager->persist($like);
+            $entityManager->flush();
+            $this->addFlash('success', 'Vous avez aimé cette publication.');
+        }
+    
+        return $this->redirectToRoute('app_feed');
+    }
+    
+    
+        
+    
 }
