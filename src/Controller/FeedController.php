@@ -18,7 +18,7 @@ class FeedController extends AbstractController
     public function index(EntityManagerInterface $entityManager, FeedRepository $feedRepo): Response
     {
         $feeds = $feedRepo->findAll();
-        
+      
         return $this->render('feed/index.html.twig', [
             'feeds' => $feeds,
         ]);
@@ -65,7 +65,7 @@ class FeedController extends AbstractController
             // Supprimer le like existant
             $entityManager->remove($existingLike);
             $entityManager->flush();
-            $this->addFlash('success', 'Votre like a été retiré.');
+         
         } else {
             // Ajouter un nouveau like
             $like = new Like();
@@ -74,7 +74,7 @@ class FeedController extends AbstractController
     
             $entityManager->persist($like);
             $entityManager->flush();
-            $this->addFlash('success', 'Vous avez aimé cette publication.');
+           
         }
     
         return $this->redirectToRoute('app_feed');

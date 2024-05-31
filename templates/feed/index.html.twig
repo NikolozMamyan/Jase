@@ -3,40 +3,45 @@
 {% block title %}Hello FeedController!{% endblock %}
 
 {% block body %}
-<div class="container">
-  <div class="row row-cols-1 row-cols-md-3 g-4">
-  {% for f in feeds %}
-    <div class="col">
-      <div class="card">
-        <img src="{{ f.image }}" class="card-img-top" alt="...">
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8">
+      {% for f in feeds %}
+      <div class="card_s mt-5">
+        <div class="card-header">
+          <img src="https://via.placeholder.com/40" alt="{{ f.author.firstName }} {{ f.author.lastName }}">
+          <div>
+            <h6 class="card-title mb-0">
+              <a href="{{ path('app_user', {id: f.author.id}) }}">{{ f.author.firstName }} {{ f.author.lastName }}</a>
+            </h6>
+            <small class="text-muted">Author</small>
+          </div>
+        </div>
+        <img src="{{ f.image }}" class="card-img-top" alt="{{ f.title }}">
         <div class="card-body">
           <h5 class="card-title">{{ f.title }}</h5>
           <p class="card-text">{{ f.description }}</p>
         </div>
         <div class="card-footer">
-          <div class="d-flex justify-content-between">
+          <div class="d-flex justify-content-between align-items-center w-100">
             <div>
               {% set userLiked = false %}
               {% for like in f.likes %}
                 {% if like.user.id == app.user.id %}
                   {% set userLiked = true %}
-          
                 {% endif %}
               {% endfor %}
-              
-              <a href="{{ path('app_feed_liked', {id: f.id}) }}">
-                <button class="nm-Button-like {{ userLiked ? 'filled' : '' }}">
-                  <i class="fas fa-heart"></i> {{ f.likes|length }}
-                </button>
+              <a href="{{ path('app_feed_liked', {id: f.id}) }}" class="nm-Button-like {{ userLiked ? 'filled' : '' }}">
+                <i class="fas fa-heart"></i> {{ f.likes|length }}
               </a>
-              <button class="btn btn-outline-primary btn-sm"><i class="far fa-comment"></i> Commenter</button>
             </div>
-            <button class="btn btn-outline-primary btn-sm"><i class="far fa-share-square"></i> {{ f.shared }}</button>
+            <a href="#" class="btn"><i class="far fa-comment"></i> Commenter</a>
+            <a href="#" class="btn"><i class="far fa-share-square"></i> {{ f.shared }}</a>
           </div>
         </div>
       </div>
+      {% endfor %}
     </div>
-  {% endfor %}
   </div>
 </div>
 {% endblock %}
