@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Hello userFindedController!{% endblock %}
-
+{% import 'macro/toast_macro.html.twig' as toasts %}
+{% block title %}Profil Utilisateur{% endblock %}
 {% block body %}
 <section class="h-100 gradient-custom-2">
   <div class="container py-5 h-100">
@@ -13,12 +12,17 @@
               <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
                 alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
                 style="width: 150px; z-index: 1">
-              <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-dark text-body" data-mdb-ripple-color="dark" style="z-index: 1;">
-                Send a message
-              </button>
+           <div class="btn-group gap-1" role="group" aria-label="Basic example">
+    <a href="#" class="btn btn-outline-primary btn-sm">Message</a>
+    {% if isFollowing %}
+        <a href="{{ path('app_unfollow_user', {'id': userFinded.id}) }}" class="btn btn-sm btn-danger">Unfollow</a>
+    {% else %}
+        <a href="{{ path('app_follow_user', {'id': userFinded.id}) }}" class="btn btn-sm" style="background-color:#a0e66a; border:1px solid black;">Follow</a>
+    {% endif %}
+</div>
             </div>
             <div class="ms-3" style="margin-top: 130px;">
-              <h5>{{ userFinded.firstName }}  {{userFinded.lastName}}</h5>
+              <h5>{{ userFinded.firstName }} {{ userFinded.lastName }}</h5>
               <p>New York</p>
             </div>
           </div>
@@ -29,17 +33,26 @@
                 <p class="small text-muted mb-0">Photos</p>
               </div>
               <div class="px-3">
-                <p class="mb-1 h5">{{userFinded.Followers}}</p>
+                <p class="mb-1 h5">{{ userFinded.Followers }}</p>
                 <p class="small text-muted mb-0">Followers</p>
               </div>
               <div>
-                <p class="mb-1 h5">{{userFinded.Following}}</p>
+                <p class="mb-1 h5">{{ userFinded.Following }}</p>
                 <p class="small text-muted mb-0">Following</p>
               </div>
             </div>
           </div>
+          <div class='followMessages'>
+            {% for message in app.flashes('success') %}
+        {{ toasts.toast('success', message) }}
+    {% endfor %}
+
+    {% for message in app.flashes('warning') %}
+        {{ toasts.toast('warning', message) }}
+    {% endfor %}
+    </div>
           <div class="card-body p-4 text-black">
-            <div class="mb-5  text-body">
+            <div class="mb-5 text-body">
               <p class="lead fw-normal mb-1">About</p>
               <div class="p-4 bg-body-tertiary">
                 <p class="font-italic mb-1">Web Developer</p>
@@ -77,4 +90,5 @@
     </div>
   </div>
 </section>
+
 {% endblock %}

@@ -51,9 +51,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
 
+    /**
+     * @var Collection<int, Follow>
+     */
+    #[ORM\OneToMany(targetEntity: Follow::class, mappedBy: 'follower')]
+    private Collection $follows;
+
     public function __construct()
     {
         $this->feeds = new ArrayCollection();
+        $this->follows = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -205,6 +212,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastName(string $lastName): static
     {
         $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Follow>
+     */
+    public function getFollows(): Collection
+    {
+        return $this->follows;
+    }
+
+    public function addFollow(Follow $follow): static
+    {
+        if (!$this->follows->contains($follow)) {
+            $this->follows->add($follow);
+            $follow->setFollower($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFollow(Follow $follow): static
+    {
+        if ($this->follows->removeElement($follow)) {
+            // set the owning side to null (unless already changed)
+            if ($follow->getFollower() === $this) {
+                $follow->setFollower(null);
+            }
+        }
 
         return $this;
     }

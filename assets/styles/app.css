@@ -1,3 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300;500;600;700;800;900&family=Roboto:wght@300;400;500&family=Shrikhand&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300;500;600;700;800;900&family=Roboto:wght@300;400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&family=Shrikhand&display=swap");
+
 .nm-Button {
     position: relative;
     display: inline-block;
@@ -23,7 +27,54 @@
     border: #a0e66a;
     }
 
-    
+    /* toast*/
+
+    /* Style pour le conteneur des toasts */
+.followMessages {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  /* Animation d'entrée pour chaque toast */
+  .toast {
+    opacity: 0;
+    transform: translateX(100%);
+    animation: slideInRight 0.3s ease-in-out forwards;
+  }
+  
+  /* Animation de sortie pour chaque toast */
+  .toast.hide {
+    animation: slideOutRight 0.3s ease-in-out forwards;
+  }
+  
+  /* Définition des keyframes pour l'animation d'entrée */
+  @keyframes slideInRight {
+    0% {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  /* Définition des keyframes pour l'animation de sortie */
+  @keyframes slideOutRight {
+    0% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+  }
 /* footer */
 
 .card {
