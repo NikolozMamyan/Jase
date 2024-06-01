@@ -114,11 +114,20 @@ body {
   color: #a0e66a; /* Couleur des icônes actives */
 }
 .nav_custom{
-  margin-left: -200px;
+  position: relative;
+  margin-left: -280px;
+  display: flex;
+  flex-direction: row;
+}
+
+.icons_custom {
+  position: absolute;
+  gap: 50px;
 }
 .create-post {
   max-width: 750px;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
   background-color: #f8f9fa;
   padding: 15px;
   border-radius: 10px;
@@ -272,4 +281,38 @@ footer .list-inline-item a:hover {
 
 .card-footer .btn:hover {
   color: #000;
+}
+
+
+@media only screen and (max-width: 991px) {
+
+  .nav_custom{
+    gap: 50px;
+    margin-left: -300px;
+  }
+  .icons_custom{
+    top: 89vh;
+    display: flex;
+    gap: 90px;
+    flex-direction: row;
+  }
+
+  .navbar-nav .nav-link.active{
+    width: 60px;
+    padding-left: 13px;
+  }
+
+  footer{
+    display: none;
+  }
+  
+
+}
+
+@media only screen and (max-width: 381px) {
+
+  .nav_custom{
+    bottom: 10vh;
+
+  }
 }

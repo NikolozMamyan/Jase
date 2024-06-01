@@ -4,8 +4,10 @@
 {% block title %}Hello FeedController!{% endblock %}
 
 {% block body %}
-<section class="body">
-  <div class="container mt-5 d-flex row justify-content-center">
+
+
+<section class="body container mb-5">
+  <div class="mt-5 d-flex row justify-content-center">
     <div class="create-post border rounded p-3 shadow-sm d-flex row justify-content-center">
       <p class="h5 mb-3">Quoi de neuf, {{ app.user.firstName }} ?</p>
       <textarea class="form-control mb-2" placeholder="Exprimez-vous..."></textarea>
