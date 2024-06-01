@@ -54,20 +54,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Follow>
      */
-    #[ORM\OneToMany(targetEntity: Follow::class, mappedBy: 'follower')]
+    #[ORM\OneToMany(targetEntity: Follow::class, mappedBy: 'follower', cascade:["remove"])]
     private Collection $follows;
 
     /**
      * @var Collection<int, Like>
      */
-    #[ORM\OneToMany(targetEntity: Like::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Like::class, mappedBy: 'user' , cascade:["remove"])]
     private Collection $likes;
+
+    /**
+     * @var Collection<int, Comment>
+     */
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'userCommented')]
+    private Collection $comments;
 
     public function __construct()
     {
         $this->feeds = new ArrayCollection();
         $this->follows = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -277,6 +284,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($like->getUser() === $this) {
                 $like->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setUserCommented($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getUserCommented() === $this) {
+                $comment->setUserCommented(null);
             }
         }
 

@@ -1,29 +1,36 @@
 {% extends 'base.html.twig' %}
+{% import 'macro/toast_macro.html.twig' as toasts %}
 
 {% block title %}Hello FeedController!{% endblock %}
 
 {% block body %}
-<div class="container mt-4">
-  <div class="row justify-content-center">
-    <div class="col-12 col-md-8">
-      {% for f in feeds %}
-      <div class="card_s mt-5">
-        <div class="card-header">
-          <img src="https://via.placeholder.com/40" alt="{{ f.author.firstName }} {{ f.author.lastName }}">
-          <div>
-            <h6 class="card-title mb-0">
-              <a href="{{ path('app_user', {id: f.author.id}) }}">{{ f.author.firstName }} {{ f.author.lastName }}</a>
-            </h6>
-            <small class="text-muted">Author</small>
+<section class="body">
+  <div class="container mt-5 d-flex row justify-content-center">
+    <div class="create-post border rounded p-3 shadow-sm d-flex row justify-content-center">
+      <p class="h5 mb-3">Quoi de neuf, {{ app.user.firstName }} ?</p>
+      <textarea class="form-control mb-2" placeholder="Exprimez-vous..."></textarea>
+      <button class="btn nm-Button w-50">Publier</button>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8">
+        {% for f in feeds %}
+        <div class="card_s mt-5 border rounded shadow-sm">
+          <div class="card-header d-flex align-items-center">
+            <img src="https://via.placeholder.com/40" alt="{{ f.author.firstName }} {{ f.author.lastName }}" class="rounded-circle me-3">
+            <div>
+              <h6 class="card-title mb-0">
+                <a href="{{ path('app_user', {id: f.author.id}) }}">{{ f.author.firstName }} {{ f.author.lastName }}</a>
+              </h6>
+              <small class="text-muted">Author</small>
+            </div>
           </div>
-        </div>
-        <img src="{{ f.image }}" class="card-img-top" alt="{{ f.title }}">
-        <div class="card-body">
-          <h5 class="card-title">{{ f.title }}</h5>
-          <p class="card-text">{{ f.description }}</p>
-        </div>
-        <div class="card-footer">
-          <div class="d-flex justify-content-between align-items-center w-100">
+          <img src="{{ f.image }}" class="card-img-top" alt="{{ f.title }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ f.title }}</h5>
+            <p class="card-text">{{ f.description }}</p>
+          </div>
+          <div class="card-footer d-flex justify-content-between align-items-center">
             <div>
               {% set userLiked = false %}
               {% for like in f.likes %}
@@ -31,17 +38,43 @@
                   {% set userLiked = true %}
                 {% endif %}
               {% endfor %}
-              <a href="{{ path('app_feed_liked', {id: f.id}) }}" class="nm-Button-like {{ userLiked ? 'filled' : '' }}">
+               <div class='commentMessages mt-5'>
+            {% for message in app.flashes('success') %}
+        {{ toasts.toast('success', message) }}
+    {% endfor %}
+    </div>
+                 <a href="{{ path('app_feed_liked', {id: f.id}) }}" class="nm-Button-like {{ userLiked ? 'filled' : '' }}">
                 <i class="fas fa-heart"></i> {{ f.likes|length }}
               </a>
             </div>
-            <a href="#" class="btn"><i class="far fa-comment"></i> Commenter</a>
+            <a href="#" class="btn fs-6" data-bs-toggle="collapse" data-bs-target="#comments-{{ f.id }}" aria-expanded="false" aria-controls="comments-{{ f.id }}">
+              <i class="far fa-comment"></i> {{ f.commentss|length }} Commentaires
+            </a>
             <a href="#" class="btn"><i class="far fa-share-square"></i> {{ f.shared }}</a>
           </div>
+          <div class="collapse mt-3 p-2" id="comments-{{ f.id }}">
+            {% for comment in f.commentss %}
+              <div class="card mb-3">
+                <div class="card-body bg-secondary-subtle">
+                  
+                  <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted"><h5> <a class="text-decoration-none text-dark" href="{{ path('app_user', {id: comment.userCommented.id}) }}">{{ comment.userCommented.firstName }} {{ comment.userCommented.lastName }}</a></h5> </small>
+                  </div>
+                  <p class="card-text">{{ comment.content }}</p>
+                </div>
+              </div>
+            {% endfor %}
+            <form action="{{ path('app_feed_comment', {id: f.id}) }}" method="post">
+              <div class="form-group">
+                <textarea class="form-control" name="comment" placeholder="Ajouter un commentaire..." required></textarea>
+              </div>
+              <button type="submit" class="nm-Button mt-2">Commenter</button>
+            </form>
+          </div>
         </div>
+        {% endfor %}
       </div>
-      {% endfor %}
     </div>
   </div>
-</div>
+</section>
 {% endblock %}

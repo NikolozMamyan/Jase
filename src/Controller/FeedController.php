@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Feed;
 use App\Entity\Like;
 use App\Form\FeedType;
+use App\Entity\Comment;
 use App\Repository\FeedRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -78,6 +79,37 @@ class FeedController extends AbstractController
         }
     
         return $this->redirectToRoute('app_feed');
+    }
+
+    #[Route('/feed/{id}/comment', name: 'app_feed_comment')]
+    public function addComment(Request $request, $id, EntityManagerInterface $entityManager, FeedRepository $feedRepository): Response
+    {
+        $feed = $feedRepository->find($id);
+
+        if (!$feed) {
+            throw $this->createNotFoundException('Publication non trouvée');
+        }
+
+        $user = $this->getUser();
+        $content = $request->request->get('comment');
+
+        if (!$content) {
+            $this->addFlash('error', 'Veuillez entrer un commentaire.');
+        } else {
+            $comment = new Comment();
+            $comment->setContent($content);
+            $comment->setUserCommented($user);
+            $comment->setFeed($feed);
+            // $comment->setCreatedAt(new \DateTime());
+ 
+
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Votre commentaire a été ajouté.');
+        }
+
+        return $this->redirectToRoute('app_feed', ['id' => $id]);
     }
     
     

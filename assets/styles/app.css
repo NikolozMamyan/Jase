@@ -2,30 +2,42 @@
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300;500;600;700;800;900&family=Roboto:wght@300;400;500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&family=Shrikhand&display=swap");
 
+body {
+  padding-top: 100px; /* Ajustez cette valeur selon la hauteur de votre navbar */
+}
+.body{
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .nm-Button {
-    position: relative;
-    display: inline-block;
-    margin: 15px;
-    padding: 5px 10px;
-    width: 90%;
-    text-align: center;
-    font-size: 16px;
-    letter-spacing: 1px;
-    text-decoration: none;
-    color: black;
-    background: transparent;
-    cursor: pointer;
-    transition: ease-out 0.5s;
-    border: 1px solid black;
-    border-radius: 10px;
-    box-shadow: inset 0 0 0 0 #a0e66a;
-    }
-    
-    .nm-Button:hover {
-    color: white;
-    box-shadow: inset 0 -100px 0 0 #a0e66a;
-    border: #a0e66a;
-    }
+  position: relative;
+  display: inline-block;
+  margin: 15px;
+  padding: 5px 10px;
+  width: 90%;
+  height: 40px; /* Ajouter une hauteur fixe */
+  line-height: 30px; /* Centrer verticalement le texte */
+  text-align: center;
+  font-size: 16px;
+  letter-spacing: 1px;
+  text-decoration: none;
+  color: black;
+  background: transparent;
+  cursor: pointer;
+  transition: color 0.5s ease-out, box-shadow 0.2s ease-out; /* Séparer les transitions */
+  border: 1px solid black;
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 0 #a0e66a;
+}
+
+.nm-Button:hover {
+  color: white;
+  box-shadow: inset 0 -40px 0 0 #a0e66a; /* Ajuster la hauteur du box-shadow */
+  border-color: #a0e66a; /* Corriger la couleur de la bordure */
+}
+
     .nm-Button-like {
       color: #666;
       opacity: 0.7; /* Couleur neutre par défaut */
@@ -58,6 +70,19 @@
     flex-direction: column;
     gap: 10px;
   }
+
+  .commentMessages {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+
+  
   
   /* Animation d'entrée pour chaque toast */
   .toast {
@@ -70,6 +95,44 @@
   .toast.hide {
     animation: slideOutRight 0.3s ease-in-out forwards;
   }
+  .search-btn {
+    background-color: #fff; /* Couleur de fond du bouton */
+    color: #000; /* Couleur de l'icône */
+    border: none;
+   
+    font-size: 16px; /* Taille de la police */
+    cursor: pointer; /* Changement de curseur */
+}
+
+.navbar-nav .nav-link {
+  color: #000; /* Couleur par défaut des icônes */
+}
+
+.navbar-nav .nav-link.active {
+  border-bottom: 4px solid #a0e66a; /* Couleur de la bordure */
+  width: 55px;
+  color: #a0e66a; /* Couleur des icônes actives */
+}
+.nav_custom{
+  margin-left: -200px;
+}
+.create-post {
+  max-width: 750px;
+  margin: auto;
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 10px;
+  height: 240px;
+}
+
+.create-post p {
+  color: #333;
+}
+
+.create-post textarea {
+  resize: none;
+  height: 100px;
+}
   
   /* Définition des keyframes pour l'animation d'entrée */
   @keyframes slideInRight {

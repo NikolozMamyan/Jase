@@ -36,9 +36,16 @@ class Feed
     #[ORM\OneToMany(mappedBy: 'feed', targetEntity: Like::class, orphanRemoval: true)]
     private Collection $likes;
 
+    /**
+     * @var Collection<int, Comment>
+     */
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'feed')]
+    private Collection $commentss;
+
     public function __construct()
     {
         $this->likes = new ArrayCollection();
+        $this->commentss = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -136,6 +143,36 @@ class Feed
             // set the owning side to null (unless already changed)
             if ($like->getFeed() === $this) {
                 $like->setFeed(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getCommentss(): Collection
+    {
+        return $this->commentss;
+    }
+
+    public function addCommentss(Comment $commentss): static
+    {
+        if (!$this->commentss->contains($commentss)) {
+            $this->commentss->add($commentss);
+            $commentss->setComments($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentss(Comment $commentss): static
+    {
+        if ($this->commentss->removeElement($commentss)) {
+            // set the owning side to null (unless already changed)
+            if ($commentss->getComments() === $this) {
+                $commentss->setComments(null);
             }
         }
 

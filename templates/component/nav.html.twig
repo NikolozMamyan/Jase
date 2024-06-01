@@ -1,22 +1,45 @@
 {% if app.user %}
-<nav class="navbar navbar-expand-lg border border-secondary shadow p-2 mb-5 bg-body-tertiary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">Jase</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-link" href="{{path('app_feed')}}">Home</a>
-                <a class="nav-link" href="{{path('app_profil')}}">Mon profil</a>
-                <a class="nav-link" href="#contactForm">Contact</a>
-            </div>
-            {{ render(controller('App\\Controller\\SearchController::searchBar', {'turbo': false})) }}
-            
-            <div class="navbar-nav">
-                <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
-            </div>
-        </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand me-5" href="{{ path('app_feed') }}">
+      <img src="{{ asset('IMG/LOGO.png') }}" alt="" height="36">
+    </a>
+    <div class="search-input d-flex align-items-center mx-auto">
+      {{ render(controller('App\\Controller\\SearchController::searchBar', {'turbo': false})) }}
     </div>
+    <div class="d-flex align-items-center justify-content-center flex-grow-1 fs-2">
+      <ul class="navbar-nav gap-5 nav_custom">
+        <li class="nav-item">
+          <a class="nav-link {% if app.request.attributes.get('_route') == 'app_feed' %}active{% endif %}" href="{{ path('app_feed') }}">
+            <i class="fas fa-house-user"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if app.request.attributes.get('_route') == 'app_users' %}active{% endif %}" href="#">
+            <i class="fas fa-users"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if app.request.attributes.get('_route') == 'app_dashboard' %}active{% endif %}" href="#">
+            <i class="fas fa-grip-horizontal"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <ul class="navbar-nav mb-2 mb-lg-0">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="user-picture.jpg" class="avatar rounded-circle me-1" alt="">
+          {{ app.user.firstName }}
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+          <li><a class="dropdown-item" href="{{ path('app_profil') }}"><i class="fas fa-user-circle me-2"></i>Profil</a></li>
+          <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Paramètres</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt me-2"></i>Déconnexion</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
 </nav>
 {% endif %}

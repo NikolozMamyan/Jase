@@ -20,14 +20,8 @@ class SearchController extends AbstractController
             ->add('query', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control p-2 rounded-4 me-2',
                     'placeholder' => 'Recherchez un utilisateur'
-                ]
-            ])
-            ->add('go', SubmitType::class, [
-                'attr' => [
-                    'class' => 'btn text-dark',
-                    'style'=> "background-color: #a0e66a; border: 1px solid black;"
                 ]
             ])
             ->getForm();
