@@ -11,7 +11,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class FeedController extends AbstractController
 {
@@ -27,27 +29,49 @@ class FeedController extends AbstractController
 
 
     #[Route('/feed/new', name: 'app_feed_new')]
-    public function new(EntityManagerInterface $entityManager, FeedRepository $feedRepo, Request $request): Response
+    public function new(EntityManagerInterface $entityManager, SluggerInterface $slugger, Request $request): Response
     {
-        $feed = new Feed;
-        $form= $this->createForm(FeedType:: class, $feed);
-        $form -> handleRequest($request);
-
+        $user = $this->getUser();
+        $feed = new Feed();
+        $form = $this->createForm(FeedType::class, $feed);
+        $form->handleRequest($request);
+    
         if ($form->isSubmitted() && $form->isValid()) {
-        
+            /** @var UploadedFile $imgFile */
+            $imgFile = $form->get('imageFile')->getData();
+    
+            if ($imgFile) {
+                $originalFilename = pathinfo($imgFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $imgFile->guessExtension();
+    
+                // Déplacer le fichier vers le répertoire où les images sont stockées
+                try {
+                    $imgFile->move($this->getParameter('feed_images_directory'), $newFilename);
+                } catch (FileException $e) {
+                    // Gérer l'exception si quelque chose se produit pendant le téléchargement du fichier
+                    $this->addFlash('error', 'Erreur lors du téléchargement de l\'image.');
+                }
+    
+                // Mettre à jour la propriété 'imageName' pour stocker le nom du fichier image
+                $feed->setImageName($newFilename);
+            }
+    
+            $feed->setAuthor($user);
             $entityManager->persist($feed);
             $entityManager->flush();
-
-            // display message
-            $this->addFlash('success', 'Votre blog a bien été crée.');
-
-            return $this->redirectToRoute('app_login');
+    
+            // Afficher un message de succès
+            $this->addFlash('success', 'Votre blog a bien été créé.');
+    
+            return $this->redirectToRoute('app_feed');
         }
-        
+    
         return $this->render('feed/create.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
+    
 
     #[Route('/feed/{id}/liked', name: 'app_feed_liked')]
     public function feedLiked(EntityManagerInterface $entityManager, FeedRepository $feedRepo, int $id): Response
