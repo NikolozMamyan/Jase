@@ -13,11 +13,11 @@ class Follow
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'follows')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'following')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $follower = null;
 
-    #[ORM\ManyToOne(inversedBy: 'followers')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'followers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $followed = null;
 
@@ -31,7 +31,7 @@ class Follow
         return $this->follower;
     }
 
-    public function setFollower(?User $follower): static
+    public function setFollower(?User $follower): self
     {
         $this->follower = $follower;
 
@@ -43,7 +43,7 @@ class Follow
         return $this->followed;
     }
 
-    public function setFollowed(?User $followed): static
+    public function setFollowed(?User $followed): self
     {
         $this->followed = $followed;
 
