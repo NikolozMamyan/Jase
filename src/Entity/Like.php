@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\LikeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+// src/Entity/Like.php
+
 #[ORM\Entity(repositoryClass: LikeRepository::class)]
 #[ORM\Table(name: '`like`')]
 class Like
@@ -14,12 +16,12 @@ class Like
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, cascade:["remove"])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?User $user = null;
 
     #[ORM\ManyToOne(targetEntity: Feed::class, inversedBy: 'likes')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?Feed $feed = null;
 
     public function getId(): ?int

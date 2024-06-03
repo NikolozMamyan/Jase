@@ -31,14 +31,16 @@ class Feed
     #[ORM\Column(length: 1600 , nullable:true)]
     private ?string $description = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $liked = null;
+    #[ORM\Column(type: 'integer')]
+    private int $liked = 0;
 
     #[ORM\Column(nullable: true)]
     private ?int $shared = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'feeds')]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?User $author = null;
+
 
     #[Vich\UploadableField(mapping: 'feeds', fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
@@ -46,7 +48,7 @@ class Feed
     #[ORM\Column(nullable: true)]
     private ?string $imageName = null;
 
-    #[ORM\OneToMany(mappedBy: 'feed', targetEntity: Like::class, orphanRemoval: true, cascade:["remove"])]
+    #[ORM\OneToMany(mappedBy: 'feed', targetEntity: Like::class, orphanRemoval: true, cascade: ["remove"])]
     private Collection $likes;
 
     /**
@@ -57,6 +59,7 @@ class Feed
 
     public function __construct()
     {
+        $this->liked = 0;
         $this->likes = new ArrayCollection();
         $this->commentss = new ArrayCollection();
     }
@@ -124,16 +127,39 @@ class Feed
         return $this;
     }
 
-    public function getLiked(): ?int
+    public function getLiked(): int
     {
         return $this->liked;
     }
 
-    public function setLiked(?int $liked): static
+    public function updateLikeCount(): void
     {
-        $this->liked = $liked;
+        $this->liked = $this->likes->count();
+    }
+
+    public function addLike(Like $like): static
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes->add($like);
+            $like->setFeed($this);
+            $this->updateLikeCount();
+        }
+
         return $this;
     }
+
+    public function removeLike(Like $like): static
+    {
+        if ($this->likes->removeElement($like)) {
+            if ($like->getFeed() === $this) {
+                $like->setFeed(null);
+            }
+            $this->updateLikeCount();
+        }
+        return $this;
+    }
+
+  
 
     public function getShared(): ?int
     {
@@ -166,27 +192,11 @@ class Feed
         return $this->likes;
     }
 
-    public function addLike(Like $like): static
-    {
-        if (!$this->likes->contains($like)) {
-            $this->likes->add($like);
-            $like->setFeed($this);
-        }
 
-        return $this;
-    }
 
-    public function removeLike(Like $like): static
-    {
-        if ($this->likes->removeElement($like)) {
-            // set the owning side to null (unless already changed)
-            if ($like->getFeed() === $this) {
-                $like->setFeed(null);
-            }
-        }
 
-        return $this;
-    }
+
+
 
     /**
      * @return Collection<int, Comment>

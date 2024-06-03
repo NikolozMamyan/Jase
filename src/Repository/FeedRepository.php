@@ -20,7 +20,7 @@ class FeedRepository extends ServiceEntityRepository
     public function findAllOrderedByDate()
     {
         return $this->createQueryBuilder('f')
-                    ->orderBy('f.date', 'DESC')
+                    ->orderBy('f.updatedAt', 'DESC')
                     ->getQuery()
                     ->getResult();
     }

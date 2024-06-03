@@ -21,7 +21,7 @@ class FeedController extends AbstractController
     public function index(EntityManagerInterface $entityManager, FeedRepository $feedRepo, SluggerInterface $slugger, Request $request): Response
     {
         $user = $this->getUser();
-        $feeds = $feedRepo->findAll();
+        $feeds = $feedRepo->findAllOrderedByDate();
         $feed = new Feed();
         $form = $this->createForm(FeedType::class, $feed);
         $form->handleRequest($request);
@@ -71,32 +71,32 @@ class FeedController extends AbstractController
     {
         $user = $this->getUser();
         $feed = $feedRepo->find($id);
-    
+
         if (!$feed) {
             throw $this->createNotFoundException('Publication non trouvée');
         }
-    
+
         // Vérifier si l'utilisateur a déjà liké ce feed
         $existingLike = $entityManager->getRepository(Like::class)->findOneBy(['user' => $user, 'feed' => $feed]);
-    
+
         if ($existingLike) {
             // Supprimer le like existant
+            $feed->removeLike($existingLike);
             $entityManager->remove($existingLike);
-            $entityManager->flush();
-         
         } else {
             // Ajouter un nouveau like
             $like = new Like();
             $like->setUser($user);
             $like->setFeed($feed);
-    
             $entityManager->persist($like);
-            $entityManager->flush();
-           
+            $feed->addLike($like);
         }
-    
+
+        $entityManager->flush();
+
         return $this->redirectToRoute('app_feed');
     }
+
 
     #[Route('/feed/{id}/comment', name: 'app_feed_comment')]
     public function addComment(Request $request, $id, EntityManagerInterface $entityManager, FeedRepository $feedRepository): Response
