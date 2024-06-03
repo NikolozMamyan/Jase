@@ -7,12 +7,30 @@
 
 
 <section class="body container mb-5">
-  <div class="mt-5 d-flex row justify-content-center">
-    <div class="create-post border rounded p-3 shadow-sm d-flex row justify-content-center">
-      <p class="h5 mb-3">Quoi de neuf, {{ app.user.firstName }} ?</p>
-      <textarea class="form-control mb-2" placeholder="Exprimez-vous..."></textarea>
-      <button class="btn nm-Button w-50">Publier</button>
+<div class="mt-5 d-flex row justify-content-center">
+    <div class="col-md-6">
+        <div class="input-group mb-3">
+        <div class="mt-2 me-5">
+       
+        </div>
+            <input type="text" class="form-control border-end-1 border-start-1 rounded-5" placeholder="Quoi de neuf, {{ app.user.firstName }} ?" aria-label=">Quoi de neuf,  " aria-describedby="createPostToggle" data-bs-toggle="collapse" data-bs-target="#createPostForm" aria-expanded="false" aria-controls="createPostForm" style="cursor: pointer;">
+            <span class="input-group-text bg-white border-0" id="createPostToggle" style="cursor: pointer;"><i class="fas fa-pencil-alt"></i></span>
+        </div>
     </div>
+</div>
+
+<div class="collapse mt-3" id="createPostForm">
+    <div class="create-post border rounded p-3 shadow-sm">
+        {{ form_start(form) }}
+            {{ form_widget(form.title, {'attr': {'placeholder': 'Titre', 'class': 'form-control mb-2'}}) }}
+            {{ form_widget(form.Description, {'attr': {'placeholder': 'Exprimez-vous...', 'class': 'form-control mb-2'}}) }}
+            {{ form_row(form.imageFile, {'attr': {'class': 'form-control mb-2'}}) }}
+            <div class="d-flex justify-content-center">
+                <button class="btn nm-Button w-75" type="submit">Publier</button>
+            </div>
+        {{ form_end(form) }}
+    </div>
+</div>
 
     <div class="row justify-content-center">
       <div class="col-12 col-md-8">
@@ -27,7 +45,8 @@
               <small class="text-muted">Author</small>
             </div>
           </div>
-          <img src="{{ f.imageName }}" class="card-img-top" alt="{{ f.title }}">
+          <img src="{{ vich_uploader_asset(f, 'imageFile') }}" class="card-img-top" alt="{{ f.title }}">
+        
           <div class="card-body">
             <h5 class="card-title">{{ f.title }}</h5>
             <p class="card-text">{{ f.description }}</p>

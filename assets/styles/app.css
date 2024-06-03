@@ -131,17 +131,14 @@ body {
   background-color: #f8f9fa;
   padding: 15px;
   border-radius: 10px;
-  height: 240px;
+  height: 280px;
 }
 
 .create-post p {
   color: #333;
 }
 
-.create-post textarea {
-  resize: none;
-  height: 100px;
-}
+
   
   /* Définition des keyframes pour l'animation d'entrée */
   @keyframes slideInRight {
@@ -297,6 +294,7 @@ footer .list-inline-item a:hover {
     flex-direction: row;
   }
 
+
   .navbar-nav .nav-link.active{
     width: 60px;
     padding-left: 13px;
@@ -307,6 +305,12 @@ footer .list-inline-item a:hover {
   }
   
 
+}
+
+@media only screen and (max-width: 411px) {
+  .input__mobile{
+    width: 180px;
+  }
 }
 
 @media only screen and (max-width: 381px) {

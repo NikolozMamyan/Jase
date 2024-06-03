@@ -2,12 +2,13 @@
 
 namespace App\Entity;
 
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\FeedRepository;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Doctrine\Common\Collections\Collection;
 
 
 #[ORM\Entity(repositoryClass: FeedRepository::class)]
@@ -45,7 +46,7 @@ class Feed
     #[ORM\Column(nullable: true)]
     private ?string $imageName = null;
 
-    #[ORM\OneToMany(mappedBy: 'feed', targetEntity: Like::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'feed', targetEntity: Like::class, orphanRemoval: true, cascade:["remove"])]
     private Collection $likes;
 
     /**
@@ -153,6 +154,7 @@ class Feed
     public function setAuthor(?User $author): static
     {
         $this->author = $author;
+        $this->updatedAt = new DateTimeImmutable();
         return $this;
     }
 

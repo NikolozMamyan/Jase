@@ -1,5 +1,5 @@
 {% block body %}
-    {{ form_start(form, {'attr': {'data-turbo': turbo ? 'true' : 'false', class: "d-flex"}}) }}
+    {{ form_start(form, {'attr': {'data-turbo': turbo ? 'true' : 'false', class: "d-flex input__mobile"}}) }}
     {{ form_widget(form.query) }}
                  <button type="submit" class="search-btn">
         <i class="fas fa-search search-icon"></i>

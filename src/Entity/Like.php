@@ -14,7 +14,7 @@ class Like
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: User::class, cascade:["remove"])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 

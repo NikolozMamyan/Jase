@@ -16,6 +16,15 @@ class FeedRepository extends ServiceEntityRepository
         parent::__construct($registry, Feed::class);
     }
 
+
+    public function findAllOrderedByDate()
+    {
+        return $this->createQueryBuilder('f')
+                    ->orderBy('f.date', 'DESC')
+                    ->getQuery()
+                    ->getResult();
+    }
+
     //    /**
     //     * @return Feed[] Returns an array of Feed objects
     //     */
