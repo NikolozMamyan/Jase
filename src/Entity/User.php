@@ -54,13 +54,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Follow>
      */
-    #[ORM\OneToMany(targetEntity: Follow::class, mappedBy: 'follower', cascade: ['remove'])]
+    #[ORM\OneToMany(targetEntity: Follow::class, mappedBy: 'follower', orphanRemoval: true)]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private Collection $following;
 
-    /**
+     /**
      * @var Collection<int, Follow>
      */
-    #[ORM\OneToMany(targetEntity: Follow::class, mappedBy: 'followed', cascade: ['remove'])]
+    #[ORM\OneToMany(targetEntity: Follow::class, mappedBy: 'followed', orphanRemoval: true)]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private Collection $followers;
 
     /**
@@ -82,6 +84,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->followers = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->followersCount = 0; // Initialiser le compteur de followers
+        $this->followingCount = 0;
     }
 
     public function getId(): ?int
@@ -203,13 +207,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getFollowingCount(): ?int
     {
-        return $this->followers->count();
+        return $this->following->count(); // Utiliser $following au lieu de $followers
     }
 
     public function setFollowingCount(?int $followingCount): static
     {
         $this->followingCount = $followingCount;
-
+    
         return $this;
     }
 
@@ -250,6 +254,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if (!$this->following->contains($follow)) {
             $this->following->add($follow);
             $follow->setFollower($this);
+            $this->followingCount = $this->following->count(); 
         }
 
         return $this;
@@ -262,6 +267,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($follow->getFollower() === $this) {
                 $follow->setFollower(null);
             }
+            $this->followingCount = $this->following->count();
         }
 
         return $this;
@@ -280,6 +286,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if (!$this->followers->contains($follow)) {
             $this->followers->add($follow);
             $follow->setFollowed($this);
+            $this->followersCount = $this->followers->count();
         }
 
         return $this;
@@ -292,6 +299,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($follow->getFollowed() === $this) {
                 $follow->setFollowed(null);
             }
+            $this->followersCount = $this->followers->count();
         }
 
         return $this;

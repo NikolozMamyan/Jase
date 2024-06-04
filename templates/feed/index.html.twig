@@ -68,23 +68,39 @@
                 <i class="fas fa-heart"></i> {{ f.likes|length }}
               </a>
             </div>
-            <a href="#" class="btn fs-6" data-bs-toggle="collapse" data-bs-target="#comments-{{ f.id }}" aria-expanded="false" aria-controls="comments-{{ f.id }}">
+            <a href="#" class="btn fs-6" data-bs-toggle="modal" data-bs-target="#commentsModal-{{ f.id }}">
               <i class="far fa-comment"></i> {{ f.commentss|length }} Commentaires
             </a>
             <a href="#" class="btn"><i class="far fa-share-square"></i> {{ f.shared }}</a>
           </div>
-          <div class="collapse mt-3 p-2" id="comments-{{ f.id }}">
-            {% for comment in f.commentss %}
-              <div class="card mb-3">
-                <div class="card-body bg-secondary-subtle">
-                  
-                  <div class="d-flex justify-content-between align-items-center">
-                    <small class="text-muted"><h5> <a class="text-decoration-none text-dark" href="{{ path('app_user', {id: comment.userCommented.id}) }}">{{ comment.userCommented.firstName }} {{ comment.userCommented.lastName }}</a></h5> </small>
-                  </div>
-                  <p class="card-text">{{ comment.content }}</p>
+          <div class="modal fade" id="commentsModal-{{ f.id }}" tabindex="-1" aria-labelledby="commentsModalLabel-{{ f.id }}" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="commentsModalLabel-{{ f.id }}">Commentaires ({{ f.commentss|length }})</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Liste des commentaires -->
+        <ul class="list-group">
+          {% for comment in f.commentss %}
+            <li class="list-group-item">
+              <div class="d-flex align-items-center">
+                <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Avatar">
+                <div>
+                  <h6 class="mb-0">{{ comment.userCommented.firstName }} {{ comment.userCommented.lastName }}</h6>
+                  <small class="text-muted">{{ comment.content }}</small>
                 </div>
               </div>
-            {% endfor %}
+            </li>
+          {% else %}
+            <li class="list-group-item">Aucun commentaire pour le moment</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
             <form action="{{ path('app_feed_comment', {id: f.id}) }}" method="post">
               <div class="form-group">
                 <textarea class="form-control" name="comment" placeholder="Ajouter un commentaire..." required></textarea>

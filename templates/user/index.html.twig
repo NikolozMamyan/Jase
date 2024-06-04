@@ -33,12 +33,79 @@
                 <p class="small text-muted mb-0">Photos</p>
               </div>
               <div class="px-3">
-                <p class="mb-1 h5">{{ userFinded.getFollowersCount() }}</p>
-                <p class="small text-muted mb-0">Followers</p>
+<!-- Button trigger modal -->
+<button type="button" class="fw-bold fs-5 btn" data-bs-toggle="modal" data-bs-target="#scrollableModal">
+  {{ userFinded.getFollowersCount() }}
+  <p class="small text-muted fs-6">Followers</p>
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="scrollableModal" tabindex="-1" aria-labelledby="scrollableModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="scrollableModalLabel">Followers de {{ userFinded.firstName }} {{ userFinded.lastName }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Liste des followers -->
+        <ul class="list-group">
+          {% for follower in userFinded.followers %}
+            <li class="list-group-item">
+              <div class="d-flex align-items-center">
+                <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Avatar">
+                <div>
+                  <h6 class="mb-0">{{ follower.followed.firstName }} {{ follower.followed.lastName }}</h6>
+                  <small class="text-muted">{{ follower.followed.email }}</small>
+                </div>
+              </div>
+            </li>
+          {% else %}
+            <li class="list-group-item">Aucun follower pour le moment</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+                
               </div>
               <div>
-                <p class="mb-1 h5">{{ userFinded.getFollowingCount() }}</p>
-                <p class="small text-muted mb-0">Following</p>
+               <!-- Button trigger modal -->
+<button type="button" class="fw-bold fs-5 btn" data-bs-toggle="modal" data-bs-target="#followingModal">
+  {{ userFinded.getFollowingCount() }}
+  <p class="small text-muted fs-6">Following</p>
+</button>
+
+<!-- Following Modal -->
+<div class="modal fade" id="followingModal" tabindex="-1" aria-labelledby="followingModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="followingModalLabel">Following de {{ userFinded.firstName }} {{ userFinded.lastName }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Liste des personnes suivies -->
+        <ul class="list-group">
+          {% for following in userFinded.following %}
+            <li class="list-group-item">
+              <div class="d-flex align-items-center">
+                <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Avatar">
+                <div>
+                  <h6 class="mb-0">{{ following.followed.firstName }} {{ following.followed.lastName }}</h6>
+                  <small class="text-muted">{{ following.followed.email }}</small>
+                </div>
+              </div>
+            </li>
+          {% else %}
+            <li class="list-group-item">Vous ne suivez personne pour le moment</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
               </div>
             </div>
           </div>

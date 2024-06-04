@@ -30,6 +30,7 @@ class UserController extends AbstractController
 
             $isFollowing = $follow !== null;
         }
+  
 
         return $this->render('user/index.html.twig', [
             'userFinded' => $userFinded,
@@ -58,6 +59,8 @@ class UserController extends AbstractController
             $follow = new Follow();
             $follow->setFollower($currentUser);
             $follow->setFollowed($userToFollow);
+            $currentUser->addFollowing($follow);
+            $userToFollow->addFollower($follow);
 
             $entityManager->persist($follow);
             $entityManager->flush();
@@ -84,6 +87,8 @@ class UserController extends AbstractController
         ]);
 
         if ($follow) {
+            $currentUser->removeFollowing($follow);
+            $userToUnfollow->removeFollower($follow);
             $entityManager->remove($follow);
             $entityManager->flush();
 

@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
+{% import 'macro/toast_macro.html.twig' as toasts %}
 
 {% block title %}Log in!{% endblock %}
 
-{% block body %}
 
+{% block body %}
 
  <main>
         <section class="jumbotron text-center mt-5">
@@ -12,6 +13,11 @@
                 <p class="lead">Découvrez les derniers articles de notre blog et partagez vos idées avec notre communauté.</p>
             </div>
         </section>
+       <div class="d-flex justify-content-end">
+ {% for message in app.flashes('success') %}
+        {{ toasts.toast('success', message) }}
+    {% endfor %}
+</div>
 
         <div class="container mt-5">
             <div class="row">
@@ -30,7 +36,7 @@
             You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
     {% endif %}
-
+ 
     <img class="h3 mb-3 font-weight-normal text-center" src="{{ asset('IMG/LOGO.png') }}" >
     <br><label for="inputEmail">Email</label>
     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control p-1 border border-secondary" autocomplete="email" required autofocus>
