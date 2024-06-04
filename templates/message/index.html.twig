@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chat avec {% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <h3>Contacts</h3>
+            <ul class="list-group">
+                {# {% for contact in contacts %} #}
+                    <li class="list-group-item">
+                        <a href="">
+                            <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Avatar">
+                            {# {{ contact.firstName }} {{ contact.lastName }} #}
+                        </a>
+                    </li>
+                {# {% else %} #}
+                    <li class="list-group-item">Aucun contact</li>
+                {# {% endfor %} #}
+            </ul>
+        </div>
+        <div class="col-md-8">
+            <div class="chat-window border rounded p-3">
+                <div class="chat-header d-flex align-items-center mb-3">
+                    <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Avatar">
+                    <h3></h3>
+                </div>
+                <div class="chat-messages p-3 border rounded mb-3" style="height: 400px; overflow-y: scroll;">
+                   
+                        <div class="d-flex ">
+                            <div class="message bg-light p-2 rounded mb-2" style="max-width: 70%;">
+                                <p class="mb-0"></p>
+                                <small class="text-muted"></small>
+                            </div>
+                        </div>
+              
+                        <p>Aucun message pour le moment</p>
+                 
+                </div>
+
+                    <div class="input-group">
+                    
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fas fa-paper-plane"></i> Envoyer
+                        </button>
+                    </div>
+           
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

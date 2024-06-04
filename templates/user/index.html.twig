@@ -13,7 +13,7 @@
                 alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
                 style="width: 150px; z-index: 1">
               <div class="btn-group gap-1" role="group" aria-label="Basic example">
-                <a href="#" class="btn btn-outline-primary btn-sm">Message</a>
+                <a href="{{ path('app_message_new', {'recipientId': following.followed.id}) }}" class="text-primary" class="btn btn-outline-primary btn-sm">Message</a>
                 {% if isFollowing %}
                     <a href="{{ path('app_unfollow_user', {'id': userFinded.id}) }}" class="btn btn-sm btn-danger">Unfollow</a>
                 {% else %}

@@ -5,113 +5,149 @@
 
 {% block body %}
 
-
 <section class="body container mb-5">
-<div class="mt-5 d-flex row justify-content-center">
-    <div class="col-md-6">
-        <div class="input-group mb-3">
-        <div class="mt-2 me-5">
-       
-        </div>
-            <input type="text" class="form-control border-end-1 border-start-1 rounded-5" placeholder="Quoi de neuf, {{ app.user.firstName }} ?" aria-label=">Quoi de neuf,  " aria-describedby="createPostToggle" data-bs-toggle="collapse" data-bs-target="#createPostForm" aria-expanded="false" aria-controls="createPostForm" style="cursor: pointer;">
-            <span class="input-group-text bg-white border-0" id="createPostToggle" style="cursor: pointer;"><i class="fas fa-pencil-alt"></i></span>
-        </div>
-    </div>
-</div>
-
-<div class="collapse mt-3" id="createPostForm">
-    <div class="create-post border rounded p-3 shadow-sm">
-        {{ form_start(form) }}
-            {{ form_widget(form.title, {'attr': {'placeholder': 'Titre', 'class': 'form-control mb-2'}}) }}
-            {{ form_widget(form.Description, {'attr': {'placeholder': 'Exprimez-vous...', 'class': 'form-control mb-2'}}) }}
-            {{ form_row(form.imageFile, {'attr': {'class': 'form-control mb-2'}}) }}
-            <div class="d-flex justify-content-center">
-                <button class="btn nm-Button w-75" type="submit">Publier</button>
+    <div class="mt-5 d-flex row justify-content-center">
+        <div class="col-md-6">
+            <div class="input-group mb-3">
+                <div class="mt-2 me-5"></div>
+                <input type="text" class="form-control border-end-1 border-start-1 rounded-5" placeholder="Quoi de neuf, {{ app.user.firstName }} ?" aria-label=">Quoi de neuf,  " aria-describedby="createPostToggle" data-bs-toggle="collapse" data-bs-target="#createPostForm" aria-expanded="false" aria-controls="createPostForm" style="cursor: pointer;">
+                <span class="input-group-text bg-white border-0" id="createPostToggle" style="cursor: pointer;"><i class="fas fa-pencil-alt"></i></span>
             </div>
-        {{ form_end(form) }}
+        </div>
     </div>
-</div>
+
+    <div class="collapse mt-3" id="createPostForm">
+        <div class="create-post border rounded p-3 shadow-sm">
+            {{ form_start(form) }}
+                {{ form_widget(form.title, {'attr': {'placeholder': 'Titre', 'class': 'form-control mb-2'}}) }}
+                {{ form_widget(form.Description, {'attr': {'placeholder': 'Exprimez-vous...', 'class': 'form-control mb-2'}}) }}
+                {{ form_row(form.imageFile, {'attr': {'class': 'form-control mb-2'}}) }}
+                <div class="d-flex justify-content-center">
+                    <button class="btn nm-Button w-75" type="submit">Publier</button>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
 
     <div class="row justify-content-center">
-      <div class="col-12 col-md-8">
-        {% for f in feeds %}
-        <div class="card_s mt-5 border rounded shadow-sm">
-          <div class="card-header d-flex align-items-center">
-            <img src="https://via.placeholder.com/40" alt="{{ f.author.firstName }} {{ f.author.lastName }}" class="rounded-circle me-3">
-            <div>
-              <h6 class="card-title mb-0">
-                <a href="{{ path('app_user', {id: f.author.id}) }}">{{ f.author.firstName }} {{ f.author.lastName }}</a>
-              </h6>
-              <small class="text-muted">Author</small>
-            </div>
-          </div>
-          <img src="{{ vich_uploader_asset(f, 'imageFile') }}" class="card-img-top" alt="{{ f.title }}">
-        
-          <div class="card-body">
-            <h5 class="card-title">{{ f.title }}</h5>
-            <p class="card-text">{{ f.description }}</p>
-          </div>
-          <div class="card-footer d-flex justify-content-between align-items-center">
-            <div>
-              {% set userLiked = false %}
-              {% for like in f.likes %}
-                {% if like.user.id == app.user.id %}
-                  {% set userLiked = true %}
-                {% endif %}
-              {% endfor %}
-               <div class='commentMessages mt-5'>
-            {% for message in app.flashes('success') %}
-        {{ toasts.toast('success', message) }}
-    {% endfor %}
-    </div>
-                 <a href="{{ path('app_feed_liked', {id: f.id}) }}" class="nm-Button-like {{ userLiked ? 'filled' : '' }}">
-                <i class="fas fa-heart"></i> {{ f.likes|length }}
-              </a>
-            </div>
-            <a href="#" class="btn fs-6" data-bs-toggle="modal" data-bs-target="#commentsModal-{{ f.id }}">
-              <i class="far fa-comment"></i> {{ f.commentss|length }} Commentaires
-            </a>
-            <a href="#" class="btn"><i class="far fa-share-square"></i> {{ f.shared }}</a>
-          </div>
-          <div class="modal fade" id="commentsModal-{{ f.id }}" tabindex="-1" aria-labelledby="commentsModalLabel-{{ f.id }}" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="commentsModalLabel-{{ f.id }}">Commentaires ({{ f.commentss|length }})</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <!-- Liste des commentaires -->
-        <ul class="list-group">
-          {% for comment in f.commentss %}
-            <li class="list-group-item">
-              <div class="d-flex align-items-center">
-                <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Avatar">
-                <div>
-                  <h6 class="mb-0">{{ comment.userCommented.firstName }} {{ comment.userCommented.lastName }}</h6>
-                  <small class="text-muted">{{ comment.content }}</small>
+        <div class="col-12 col-md-8">
+            {% for f in feeds %}
+                <div class="card_s mt-5 border rounded shadow-sm">
+                    <div class="card-header d-flex align-items-center">
+                        <img src="https://via.placeholder.com/40" alt="{{ f.author.firstName }} {{ f.author.lastName }}" class="rounded-circle me-3">
+                        <div>
+                            <h6 class="card-title mb-0">
+                                <a href="{{ path('app_user', {id: f.author.id}) }}">{{ f.author.firstName }} {{ f.author.lastName }}</a>
+                            </h6>
+                            <small class="text-muted">Author</small>
+                        </div>
+                    </div>
+                    <img src="{{ vich_uploader_asset(f, 'imageFile') }}" class="card-img-top" alt="{{ f.title }}">
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ f.title }}</h5>
+                        <p class="card-text">{{ f.description }}</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center">
+                        <div>
+                            {% set userLiked = false %}
+                            {% for like in f.likes %}
+                                {% if like.user.id == app.user.id %}
+                                    {% set userLiked = true %}
+                                {% endif %}
+                            {% endfor %}
+                            <div class='commentMessages mt-5'>
+                                {% for message in app.flashes('success') %}
+                                    {{ toasts.toast('success', message) }}
+                                {% endfor %}
+                            </div>
+                            <a href="{{ path('app_feed_liked', {id: f.id}) }}" class="nm-Button-like {{ userLiked ? 'filled' : '' }}">
+                                <i class="fas fa-heart"></i> {{ f.likes|length }}
+                            </a>
+                        </div>
+                        <a href="#" class="btn fs-6" data-bs-toggle="modal" data-bs-target="#commentsModal-{{ f.id }}">
+                            <i class="far fa-comment"></i> {{ f.commentss|length }} Commentaires
+                        </a>
+                        <a href="#" class="btn"><i class="far fa-share-square"></i> {{ f.shared }}</a>
+                    </div>
                 </div>
-              </div>
-            </li>
-          {% else %}
-            <li class="list-group-item">Aucun commentaire pour le moment</li>
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-            <form action="{{ path('app_feed_comment', {id: f.id}) }}" method="post">
-              <div class="form-group">
-                <textarea class="form-control" name="comment" placeholder="Ajouter un commentaire..." required></textarea>
-              </div>
-              <button type="submit" class="nm-Button mt-2">Commenter</button>
-            </form>
-          </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="commentsModal-{{ f.id }}" tabindex="-1" aria-labelledby="commentsModalLabel-{{ f.id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="commentsModalLabel-{{ f.id }}">Commentaires ({{ f.commentss|length }})</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Card content -->
+                                <div class="card_s border rounded shadow-sm">
+                                    <div class="card-header d-flex align-items-center">
+                                        <img src="https://via.placeholder.com/40" alt="{{ f.author.firstName }} {{ f.author.lastName }}" class="rounded-circle me-3">
+                                        <div>
+                                            <h6 class="card-title mb-0">
+                                                <a href="{{ path('app_user', {id: f.author.id}) }}">{{ f.author.firstName }} {{ f.author.lastName }}</a>
+                                            </h6>
+                                            <small class="text-muted">Author</small>
+                                        </div>
+                                    </div>
+                                    <img src="{{ vich_uploader_asset(f, 'imageFile') }}" class="card-img-top" alt="{{ f.title }}">
+
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ f.title }}</h5>
+                                        <p class="card-text">{{ f.description }}</p>
+                                    </div>
+                                    <div class="card-footer d-flex justify-content-between align-items-center">
+                                        <div>
+                                            {% set userLiked = false %}
+                                            {% for like in f.likes %}
+                                                {% if like.user.id == app.user.id %}
+                                                    {% set userLiked = true %}
+                                                {% endif %}
+                                            {% endfor %}
+                                            <a href="{{ path('app_feed_liked', {id: f.id}) }}" class="nm-Button-like {{ userLiked ? 'filled' : '' }}">
+                                                <i class="fas fa-heart"></i> {{ f.likes|length }}
+                                            </a>
+                                        </div>
+                                        <a href="#" class="btn fs-6">
+                                            <i class="far fa-comment"></i> {{ f.commentss|length }} Commentaires
+                                        </a>
+                                        <a href="#" class="btn"><i class="far fa-share-square"></i> {{ f.shared }}</a>
+                                    </div>
+                                </div>
+
+                                <!-- Liste des commentaires -->
+                      <ul class="list-group mt-3 p-3">
+                                    {% for comment in f.commentss %}
+                                        <li class="list-group-item bg-body-secondary rounded-4">
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Avatar">
+                                                <div>
+                                                    <h6 class="mb-0">{{ comment.userCommented.firstName }} {{ comment.userCommented.lastName }}</h6>
+                                                    <small class="text-dark fw-normal">{{ comment.content }}</small>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <br>
+                                    {% else %}
+                                        <li class="list-group-item">Aucun commentaire pour le moment</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <form action="{{ path('app_feed_comment', {id: f.id}) }}" method="post" class="w-100">
+                                    <div class="form-group">
+                                        <textarea class="form-control" name="comment" placeholder="Ajouter un commentaire..." required></textarea>
+                                    </div>
+                                    <button type="submit" class="nm-Button mt-2 w-100">Commenter</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-      </div>
     </div>
-  </div>
 </section>
 {% endblock %}

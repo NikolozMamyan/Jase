@@ -34,7 +34,7 @@
   <p class="small text-muted fs-6">Followers</p>
 </button>
 
-<!-- Modal -->
+<!-- Modal Followers -->
 <div class="modal fade" id="scrollableModal" tabindex="-1" aria-labelledby="scrollableModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
@@ -46,7 +46,7 @@
         <!-- Liste des followers -->
         <ul class="list-group">
           {% for follower in user.followers %}
-            <li class="list-group-item">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
               <div class="d-flex align-items-center">
                 <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Avatar">
                 <div>
@@ -54,6 +54,9 @@
                   <small class="text-muted">{{ follower.followed.email }}</small>
                 </div>
               </div>
+               <a href={# "{{ path('app_message_new', {'recipientId': following.followed.id}) }}" class="text-primary"#}>
+                <i class="fas fa-paper-plane fs-5"></i>
+              </a>
             </li>
           {% else %}
             <li class="list-group-item">Aucun follower pour le moment</li>
@@ -63,6 +66,7 @@
     </div>
   </div>
 </div>
+
               </div>
               <div>
              <!-- Button trigger modal -->
@@ -83,14 +87,17 @@
         <!-- Liste des personnes suivies -->
         <ul class="list-group">
           {% for following in user.following %}
-            <li class="list-group-item">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
               <div class="d-flex align-items-center">
                 <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Avatar">
                 <div>
                   <h6 class="mb-0">{{ following.followed.firstName }} {{ following.followed.lastName }}</h6>
-                  <small class="text-muted">{{ following.followed.email }}</small>
+                  <small class="text-muted ms-5">{{ following.followed.email }}</small>
                 </div>
               </div>
+              <a href={# "{{ path('app_message_new', {'recipientId': following.followed.id}) }}" class="text-primary"#}>
+                <i class="fas fa-paper-plane fs-5"></i>
+              </a>
             </li>
           {% else %}
             <li class="list-group-item">Vous ne suivez personne pour le moment</li>
@@ -100,6 +107,7 @@
     </div>
   </div>
 </div>
+
               </div>
             </div>
           </div>
