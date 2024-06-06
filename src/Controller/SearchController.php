@@ -20,7 +20,7 @@ class SearchController extends AbstractController
             ->add('query', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'class' => 'form-control p-2 rounded-4 me-2',
+                    'class' => 'form-control p-2 rounded-4 me-2 rounded shadow-sm',
                     'placeholder' => 'Recherchez un utilisateur'
                 ]
             ])

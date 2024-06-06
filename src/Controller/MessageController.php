@@ -20,12 +20,9 @@ class MessageController extends AbstractController
     public function index(MessageRepository $messageRepository): Response
     {
         $user = $this->getUser();
-        $sentMessages = $messageRepository->findBy(['sender' => $user]);
-        $receivedMessages = $messageRepository->findBy(['recipient' => $user]);
 
         return $this->render('message/index.html.twig', [
-            'sentMessages' => $sentMessages,
-            'receivedMessages' => $receivedMessages,
+         
         ]);
    
     }
@@ -54,6 +51,8 @@ class MessageController extends AbstractController
 
             $entityManager->persist($newMessage);
             $entityManager->flush();
+            
+            return $this->redirectToRoute('app_messages_between', ['id' => $otherUser->getId()]);
 
         }
 

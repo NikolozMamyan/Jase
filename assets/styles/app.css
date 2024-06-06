@@ -10,7 +10,48 @@ body {
   margin-left: auto;
   margin-right: auto;
 }
+.chat-box {
+  max-height: 500px;
+  overflow-y: auto;
+  background: linear-gradient(to bottom, #F5F5F5, #FFFFFF);
+}
 
+.message {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.message.sent {
+  align-items: flex-end;
+}
+
+.message.received {
+  align-items: flex-start;
+}
+
+.message-content {
+  padding: 10px 15px;
+  border-radius: 20px;
+  max-width: 60%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.message.sent .message-content {
+  background: #C8E6C9;
+  color: #333333;
+}
+
+.message.received .message-content {
+  background: #F0F0F0;
+  color: #333333;
+}
+
+.message-timestamp {
+  font-size: 0.8rem;
+  color: #6c757d;
+  margin-top: 5px;
+}
 .nm-Button {
   position: relative;
   display: inline-block;
@@ -29,26 +70,36 @@ body {
   transition: color 0.5s ease-out, box-shadow 0.2s ease-out; /* Séparer les transitions */
   border: 1px solid black;
   border-radius: 10px;
-  box-shadow: inset 0 0 0 0 #a0e66a;
+  box-shadow: inset 0 0 0 0 #25D366;
 }
 
 .nm-Button:hover {
   color: white;
-  box-shadow: inset 0 -40px 0 0 #a0e66a; /* Ajuster la hauteur du box-shadow */
-  border-color: #a0e66a; /* Corriger la couleur de la bordure */
+  box-shadow: inset 0 -40px 0 0 #25D366; /* Ajuster la hauteur du box-shadow */
+  border-color: #25D366; /* Corriger la couleur de la bordure */
 }
 
-    .nm-Button-like {
-      color: #666;
-      opacity: 0.7; /* Couleur neutre par défaut */
-      border: none;
-      background-color: transparent;
-      font-size: 1.2em;
-      cursor: pointer;
-      transition: color 0.3s ease;
-  }
-  
-  
+
+.iconMessage{
+  color:#25D366;
+}
+.likeContainer{
+  border-radius: 20px;
+  width: 52px;
+  height: 25px;
+  background-color: #dadada;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.nm-Button-like {
+  color:#666;
+  opacity: 0.7; /* Couleur neutre par défaut */
+  background-color: transparent;
+  font-size: 1em;
+  cursor: pointer;
+  transition: color 0.3s ease;
+ 
+}
   
   .nm-Button-like.filled {
       color: #ff6b6b;
@@ -57,6 +108,9 @@ body {
   
   .nm-Button-like.filled:hover {
       color: #ff4c4c; /* Couleur rouge plus foncée en hover lorsqu'il est liké */
+  }
+  .messagePage{
+    background-color: #25D366 !important;
   }
     /* toast*/
 
@@ -105,13 +159,14 @@ body {
 }
 
 .navbar-nav .nav-link {
-  color: #000; /* Couleur par défaut des icônes */
+  color:gray; /* Couleur par défaut des icônes */
+
 }
 
 .navbar-nav .nav-link.active {
-  border-bottom: 4px solid #a0e66a; /* Couleur de la bordure */
+  border-bottom: 4px solid #25D366; 
   width: 55px;
-  color: #a0e66a; /* Couleur des icônes actives */
+  color: #25D366; 
 }
 .nav_custom{
   position: relative;

@@ -48,7 +48,7 @@
                         <h5 class="card-title">{{ f.title }}</h5>
                         <p class="card-text">{{ f.description }}</p>
                     </div>
-                    <div class="card-footer d-flex justify-content-between align-items-center">
+                    <div class="card-footer">
                         <div>
                             {% set userLiked = false %}
                             {% for like in f.likes %}
@@ -61,8 +61,11 @@
                                     {{ toasts.toast('success', message) }}
                                 {% endfor %}
                             </div>
-                            <a href="{{ path('app_feed_liked', {id: f.id}) }}" class="nm-Button-like {{ userLiked ? 'filled' : '' }}">
-                                <i class="fas fa-heart"></i> {{ f.likes|length }}
+                            <a href="{{ path('app_feed_liked', {id: f.id}) }}" class="nm-Button-like {{ userLiked ? 'filled' : '' }} text-decoration-none">
+                            <div class="likeContainer">
+                                <i class="fas fa-heart ms-2"></i> 
+                                {{ f.likes|length }}
+                                </div>
                             </a>
                         </div>
                         <a href="#" class="btn fs-6" data-bs-toggle="modal" data-bs-target="#commentsModal-{{ f.id }}">
@@ -106,9 +109,12 @@
                                                     {% set userLiked = true %}
                                                 {% endif %}
                                             {% endfor %}
-                                            <a href="{{ path('app_feed_liked', {id: f.id}) }}" class="nm-Button-like {{ userLiked ? 'filled' : '' }}">
-                                                <i class="fas fa-heart"></i> {{ f.likes|length }}
-                                            </a>
+                                           <a href="{{ path('app_feed_liked', {id: f.id}) }}" class="nm-Button-like {{ userLiked ? 'filled' : '' }} text-decoration-none">
+                            <div class="likeContainer">
+                                <i class="fas fa-heart ms-2"></i> 
+                                {{ f.likes|length }}
+                                </div>
+                            </a>
                                         </div>
                                         <a href="#" class="btn fs-6">
                                             <i class="far fa-comment"></i> {{ f.commentss|length }} Commentaires
@@ -140,7 +146,7 @@
                                     <div class="form-group">
                                         <textarea class="form-control" name="comment" placeholder="Ajouter un commentaire..." required></textarea>
                                     </div>
-                                    <button type="submit" class="nm-Button mt-2 w-100">Commenter</button>
+                                    <button type="submit" class="nm-Button mt-2">Commenter</button>
                                 </form>
                             </div>
                         </div>
