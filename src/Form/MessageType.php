@@ -2,31 +2,25 @@
 
 namespace App\Form;
 
-use App\Entity\Message;
 use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Message;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class MessageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('content')
-            ->add('sentAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('sender', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
-            ])
-            ->add('recipient', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
-            ])
-        ;
+        ->add('content', TextareaType::class, [
+            'attr' => [
+                'placeholder' => 'Tapez votre message...',
+                'class' => 'form-control',
+            ],
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

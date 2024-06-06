@@ -51,6 +51,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
 
+    #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Message::class)]
+    private Collection $sentMessages;
+
+    #[ORM\OneToMany(mappedBy: 'recipient', targetEntity: Message::class)]
+    private Collection $receivedMessages;
+
     /**
      * @var Collection<int, Follow>
      */
@@ -93,6 +99,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->followersCount = 0; // Initialiser le compteur de followers
         $this->followingCount = 0;
         $this->messages = new ArrayCollection();
+        $this->sentMessages = new ArrayCollection();
+        $this->receivedMessages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -372,30 +380,60 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Message>
+/**
+     * @return Collection|Message[]
      */
-    public function getMessages(): Collection
+    public function getSentMessages(): Collection
     {
-        return $this->messages;
+        return $this->sentMessages;
     }
 
-    public function addMessage(Message $message): static
+    public function addSentMessage(Message $sentMessage): self
     {
-        if (!$this->messages->contains($message)) {
-            $this->messages->add($message);
-            $message->setSender($this);
+        if (!$this->sentMessages->contains($sentMessage)) {
+            $this->sentMessages->add($sentMessage);
+            $sentMessage->setSender($this);
         }
 
         return $this;
     }
 
-    public function removeMessage(Message $message): static
+    public function removeSentMessage(Message $sentMessage): self
     {
-        if ($this->messages->removeElement($message)) {
+        if ($this->sentMessages->removeElement($sentMessage)) {
             // set the owning side to null (unless already changed)
-            if ($message->getSender() === $this) {
-                $message->setSender(null);
+            if ($sentMessage->getSender() === $this) {
+                $sentMessage->setSender(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getReceivedMessages(): Collection
+    {
+        return $this->receivedMessages;
+    }
+
+    public function addReceivedMessage(Message $receivedMessage): self
+    {
+        if (!$this->receivedMessages->contains($receivedMessage)) {
+            $this->receivedMessages->add($receivedMessage);
+            $receivedMessage->setRecipient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReceivedMessage(Message $receivedMessage): self
+    {
+        if ($this->receivedMessages->removeElement($receivedMessage)) {
+            // set the owning side to null (unless already changed)
+            if ($receivedMessage->getRecipient() === $this) {
+                $receivedMessage->setRecipient(null);
             }
         }
 

@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\Message;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Message>
@@ -14,6 +15,30 @@ class MessageRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Message::class);
+    }
+
+    public function findContacts(User $user)
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->select('DISTINCT u')
+            ->join('m.sender', 'u')
+            ->where('m.recipient = :user')
+            ->setParameter('user', $user)
+            ->orWhere('m.sender = :user')
+            ->setParameter('user', $user);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findMessagesBetween(User $user1, User $user2)
+    {
+        return $this->createQueryBuilder('m')
+            ->andWhere('(m.sender = :user1 AND m.recipient = :user2) OR (m.sender = :user2 AND m.recipient = :user1)')
+            ->setParameter('user1', $user1)
+            ->setParameter('user2', $user2)
+            ->orderBy('m.sentAt', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**

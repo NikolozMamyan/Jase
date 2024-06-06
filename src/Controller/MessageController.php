@@ -6,6 +6,7 @@ use DateTime;
 use App\Entity\User;
 use App\Entity\Message;
 use App\Form\MessageType;
+use App\Repository\UserRepository;
 use App\Repository\MessageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,32 +31,38 @@ class MessageController extends AbstractController
     }
 
 
-    #[Route('/message/send/{id}', name: 'app_message_new')]
-
-    public function sendMessage(Request $request, User $recipient, EntityManagerInterface $entityManager): Response
+    #[Route('/messages/box/{id}', name: 'app_messages_between')]
+    public function getMessagesBetween(MessageRepository $messageRepository, Request $request, UserRepository $UserRepository, EntityManagerInterface $entityManager, int $id): Response
     {
-        $message = new Message();
-        $form = $this->createForm(MessageType::class, $message);
+        $currentUser = $this->getUser();
+        $otherUser = $UserRepository->find($id);
+
+        if (!$otherUser) {
+            throw $this->createNotFoundException('L\'utilisateur n\'existe pas');
+        }
+
+        $messages = $messageRepository->findMessagesBetween($currentUser, $otherUser);
+
+        $newMessage = new Message();
+        $form = $this->createForm(MessageType::class, $newMessage);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $message->setSender($this->getUser());
-            $message->setRecipient($recipient);
-            $message->setSentAt(new DateTime());
+            $newMessage->setSender($currentUser);
+            $newMessage->setRecipient($otherUser);
+            $newMessage->setSentAt(new \DateTime());
 
-            $entityManager->persist($message);
+            $entityManager->persist($newMessage);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Message envoyé avec succès !');
-
-            return $this->redirectToRoute('app_message', ['id' => $recipient->getId()]);
         }
 
-        return $this->render('message/send.html.twig', [
+        return $this->render('message/messages.html.twig', [
+            'messages' => $messages,
+            'otherUser' => $otherUser,
             'form' => $form->createView(),
-            'recipient' => $recipient,
         ]);
     }
-
-    
 }
+    
+
