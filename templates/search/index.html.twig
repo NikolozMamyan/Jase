@@ -15,7 +15,7 @@
                         <div class="card mb-4">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
-                                    <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="{{ user.firstName }} {{ user.lastName }}">
+                                    <img src="{{ vich_uploader_asset(user, 'imageFile') }}" class="rounded-circle me-3" alt="Avatar" style="width:40px; height: 40px;">
                                     <div>
                                         <h6 class="mb-1"><a href="{{ path('app_user', {id: user.id}) }}" class="text-decoration-none">{{ user.firstName }} {{ user.lastName }}</a></h6>
                                         {# <p class="text-muted mb-0">{{ user.occupation }}</p> #}
