@@ -34,7 +34,16 @@
             {% for f in feeds %}
                 <div class="card_s mt-5 border rounded shadow-sm">
                     <div class="card-header d-flex align-items-center">
-                    <img src="{{ vich_uploader_asset(f.author, 'imageFile') }}" class="rounded-circle me-3" alt="Avatar" style="width:40px; height: 40px;">
+                                                            {% if user.imageName is defined and user.imageName is not empty %}
+    <img src="{{ vich_uploader_asset(f.author, 'imageFile') }}"
+         alt="Generic placeholder image" class="rounded-circle me-3"
+         style="width:40px; height: 40px;">
+{% else %}
+    <img src="{{ asset('IMG/defAvatar/default-avatar.png') }}" 
+         alt="Default avatar" class="rounded-circle me-3"
+         style="width:40px; height: 40px;">
+{% endif %}
+                    
                         <div>
                             <h6 class="card-title mb-0">
                                 <a href="{{ path('app_user', {id: f.author.id}) }}">{{ f.author.firstName }} {{ f.author.lastName }}</a>
@@ -87,7 +96,15 @@
                                 <!-- Card content -->
                                 <div class="card_s border rounded shadow-sm">
                                     <div class="card-header d-flex align-items-center">
-                                        <img src="{{ vich_uploader_asset(f.author, 'imageFile') }}" class="rounded-circle me-3" alt="Avatar" style="width:40px; height: 40px;">
+                                        {% if user.imageName is defined and user.imageName is not empty %}
+    <img src="{{ vich_uploader_asset(f.author, 'imageFile') }}"
+         alt="Generic placeholder image" class="rounded-circle me-3"
+         style="width:40px; height: 40px;">
+{% else %}
+    <img src="{{ asset('IMG/defAvatar/default-avatar.png') }}" 
+         alt="Default avatar" class="rounded-circle me-3"
+         style="width:40px; height: 40px;">
+{% endif %}
                                         <div>
                                             <h6 class="card-title mb-0">
                                                 <a href="{{ path('app_user', {id: f.author.id}) }}">{{ f.author.firstName }} {{ f.author.lastName }}</a>
@@ -128,7 +145,15 @@
                                     {% for comment in f.commentss %}
                                         <li class="list-group-item bg-body-secondary rounded-4">
                                             <div class="d-flex align-items-center">
-                                                <img src="{{ vich_uploader_asset(comment.userCommented, 'imageFile') }}" class="rounded-circle me-3" alt="Avatar" style="width:40px; height: 40px;">
+                                                {% if user.imageName is defined and user.imageName is not empty %}
+    <img src="{{ vich_uploader_asset(f.author, 'imageFile') }}"
+         alt="Generic placeholder image" class="rounded-circle me-3"
+         style="width:40px; height: 40px;">
+{% else %}
+    <img src="{{ asset('IMG/defAvatar/default-avatar.png') }}" 
+         alt="Default avatar" class="rounded-circle me-3"
+         style="width:40px; height: 40px;">
+{% endif %}
                                                 <div>
                                                     <h6 class="mb-0">{{ comment.userCommented.firstName }} {{ comment.userCommented.lastName }}</h6>
                                                     <small class="text-dark fw-normal">{{ comment.content }}</small>

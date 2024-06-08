@@ -10,9 +10,16 @@
         <div class="card">
           <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
             <div class="ms-4 mt-5 d-flex flex-column position-relative" style="width: 150px;">
-              <img src="{{ vich_uploader_asset(user, 'imageFile') }}"
-                alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
-                style="width: 150px; z-index: 1">
+         {% if user.imageName is defined and user.imageName is not empty %}
+    <img src="{{ vich_uploader_asset(user, 'imageFile') }}"
+         alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+         style="width: 150px; z-index: 1">
+{% else %}
+    <img src="{{ asset('IMG/defAvatar/default-avatar.png') }}" 
+         alt="Default avatar" class="img-fluid img-thumbnail mt-4 mb-2"
+         style="width: 150px; z-index: 1">
+{% endif %}
+
                 <a href="{{ path('app_profil_avatar')}}"  style="z-index: 1" class="position-absolute top-100 start-100"><i class="fa-solid fa-plus"></i></a>
               <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-dark text-body" data-mdb-ripple-color="dark" style="z-index: 1;">
                 Edit profile
