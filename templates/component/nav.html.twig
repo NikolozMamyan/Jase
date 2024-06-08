@@ -34,8 +34,8 @@
     <ul class="navbar-nav mb-2 mb-lg-0">
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                 {% if user.imageName is defined and user.imageName is not empty %}
-    <img src="{{ vich_uploader_asset(user, 'imageFile') }}"
+                 {% if app.user.imageName is defined and app.user.imageName is not empty %}
+    <img src="{{ vich_uploader_asset(app.user, 'imageFile') }}"
          alt="Generic placeholder image" class="avatar rounded-circle me-1"
          style="width: 20px;">
 {% else %}
@@ -43,7 +43,6 @@
          alt="Default avatar" class="avatar rounded-circle me-1"
          style="width: 20px;">
 {% endif %}
-          <img src="user-picture.jpg" class="" alt="">
           {{ app.user.firstName }}
         </a>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">

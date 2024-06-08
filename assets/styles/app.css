@@ -15,6 +15,10 @@ body {
   overflow-y: auto;
   background: linear-gradient(to bottom, #F5F5F5, #FFFFFF);
 }
+.iconPen{
+  position: absolute;
+  left: 90%;
+}
 
 .message {
   margin-bottom: 15px;

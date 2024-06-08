@@ -9,9 +9,8 @@
     <div class="mt-5 d-flex row justify-content-center">
         <div class="col-md-6">
             <div class="input-group mb-3">
-                <div class="mt-2 me-5"></div>
-                <input type="text" class="form-control border-end-1 border-start-1 rounded-5" placeholder="Quoi de neuf, {{ app.user.firstName }} ?" aria-label=">Quoi de neuf,  " aria-describedby="createPostToggle" data-bs-toggle="collapse" data-bs-target="#createPostForm" aria-expanded="false" aria-controls="createPostForm" style="cursor: pointer;">
-                <span class="input-group-text bg-white border-0" id="createPostToggle" style="cursor: pointer;"><i class="fas fa-pencil-alt"></i></span>
+                <button type="button" class="form-control border-end-1 border-start-1 rounded-5 d-flex justify-content-between" placeholder="Quoi de neuf, {{ app.user.firstName }} ?" aria-label=">Quoi de neuf,  " aria-describedby="createPostToggle" data-bs-toggle="collapse" data-bs-target="#createPostForm" aria-expanded="false" aria-controls="createPostForm" style="cursor: pointer;">
+                <span class="input-group-text bg-white border-0 fs-5 ms-2" id="createPostToggle" style="cursor: pointer;">Quoi de neuf, {{ app.user.firstName }} ?<i class="iconPen fas fa-pencil-alt fs-4"></i></span></button>
             </div>
         </div>
     </div>
@@ -34,7 +33,7 @@
             {% for f in feeds %}
                 <div class="card_s mt-5 border rounded shadow-sm">
                     <div class="card-header d-flex align-items-center">
-                                                            {% if user.imageName is defined and user.imageName is not empty %}
+                                  {% if f.author.imageName is defined and f.author.imageName is not empty %}
     <img src="{{ vich_uploader_asset(f.author, 'imageFile') }}"
          alt="Generic placeholder image" class="rounded-circle me-3"
          style="width:40px; height: 40px;">
@@ -96,7 +95,7 @@
                                 <!-- Card content -->
                                 <div class="card_s border rounded shadow-sm">
                                     <div class="card-header d-flex align-items-center">
-                                        {% if user.imageName is defined and user.imageName is not empty %}
+                                        {% if f.author.imageName is defined and f.author.imageName is not empty %}
     <img src="{{ vich_uploader_asset(f.author, 'imageFile') }}"
          alt="Generic placeholder image" class="rounded-circle me-3"
          style="width:40px; height: 40px;">
@@ -145,8 +144,8 @@
                                     {% for comment in f.commentss %}
                                         <li class="list-group-item bg-body-secondary rounded-4">
                                             <div class="d-flex align-items-center">
-                                                {% if user.imageName is defined and user.imageName is not empty %}
-    <img src="{{ vich_uploader_asset(f.author, 'imageFile') }}"
+                                                {% if comment.userCommented.imageName is defined and comment.userCommented.imageName is not empty %}
+    <img src="{{ vich_uploader_asset(comment.userCommented, 'imageFile') }}"
          alt="Generic placeholder image" class="rounded-circle me-3"
          style="width:40px; height: 40px;">
 {% else %}
