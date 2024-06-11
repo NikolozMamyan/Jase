@@ -154,8 +154,11 @@
          style="width:40px; height: 40px;">
 {% endif %}
                                                 <div>
+                                                <a href="{{ path('app_user', {id: comment.userCommented.id}) }}" class="text-decoration-none">
                                                     <h6 class="mb-0">{{ comment.userCommented.firstName }} {{ comment.userCommented.lastName }}</h6>
+                                                      </a>
                                                     <small class="text-dark fw-normal">{{ comment.content }}</small>
+                                                  
                                                 </div>
                                             </div>
                                         </li>

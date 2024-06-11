@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 // src/Entity/Like.php
 
 #[ORM\Entity(repositoryClass: LikeRepository::class)]
-#[ORM\Table(name: '`like`')]
+#[ORM\Table(name: '`like_table`')]
 class Like
 {
     #[ORM\Id]

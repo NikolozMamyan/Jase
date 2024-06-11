@@ -68,14 +68,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Follow>
      */
-    #[ORM\OneToMany(targetEntity: Follow::class, mappedBy: 'follower', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Follow::class, mappedBy: 'follower', cascade: ['remove'])]
     #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private Collection $following;
 
      /**
      * @var Collection<int, Follow>
      */
-    #[ORM\OneToMany(targetEntity: Follow::class, mappedBy: 'followed', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Follow::class, mappedBy: 'followed', cascade: ['remove'])]
     #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private Collection $followers;
 

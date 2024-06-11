@@ -57,13 +57,21 @@
           {% for follower in user.followers %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
               <div class="d-flex align-items-center">
-                <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Avatar">
+                {% if follower.follower.imageName is defined and follower.follower.imageName is not empty %}
+    <img src="{{ vich_uploader_asset(follower.follower, 'imageFile') }}"
+         alt="Generic placeholder image" class="rounded-circle me-3"
+         style="width:40px; height: 40px;">
+{% else %}
+    <img src="{{ asset('IMG/defAvatar/default-avatar.png') }}" 
+         alt="Default avatar" class="rounded-circle me-3"
+         style="width:40px; height: 40px;">
+{% endif %}
                 <div>
                   <h6 class="mb-0">{{ follower.follower.firstName }}  {{ follower.follower.lastName }}</h6>
                    <small class="text-muted ms-5">{{ follower.follower.email }}</small> 
                 </div>
               </div>
-               <a href={# "{{ path('app_message_new', {'recipientId': following.followed.id}) }}" class="text-primary"#}>
+               <a href="{{ path('app_messages_between', {id:  follower.follower.id}) }}">
                 <i class="fas fa-paper-plane fs-5"></i>
               </a>
             </li>
@@ -98,13 +106,21 @@
           {% for following in user.following %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
               <div class="d-flex align-items-center">
-                <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Avatar">
+               {% if following.followed.imageName is defined and following.followed.imageName is not empty %}
+    <img src="{{ vich_uploader_asset(following.followed, 'imageFile') }}"
+         alt="Generic placeholder image" class="rounded-circle me-3"
+         style="width:40px; height: 40px;">
+{% else %}
+    <img src="{{ asset('IMG/defAvatar/default-avatar.png') }}" 
+         alt="Default avatar" class="rounded-circle me-3"
+         style="width:40px; height: 40px;">
+{% endif %}
                 <div>
                   <h6 class="mb-0">{{ following.followed.firstName }} {{ following.followed.lastName }}</h6>
                   <small class="text-muted ms-5">{{ following.followed.email }}</small>
                 </div>
               </div>
-              <a href={# "{{ path('app_message_new', {'recipientId': following.followed.id}) }}" class="text-primary"#}>
+              <a href="{{ path('app_messages_between', {id: following.followed.id}) }}">
                 <i class="fas fa-paper-plane fs-5"></i>
               </a>
             </li>

@@ -14,6 +14,7 @@ class Comment
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?Feed $feed = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]

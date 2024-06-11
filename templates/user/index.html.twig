@@ -60,10 +60,21 @@
            {% for follow in userFinded.followers %}
             <li class="list-group-item">
               <div class="d-flex align-items-center">
-                <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Avatar">
+               <div class="card-header d-flex align-items-center">
+                                        {% if follow.follower.imageName is defined and follow.follower.imageName is not empty %}
+    <img src="{{ vich_uploader_asset(follow.follower, 'imageFile') }}"
+         alt="Generic placeholder image" class="rounded-circle me-3"
+         style="width:40px; height: 40px;">
+{% else %}
+    <img src="{{ asset('IMG/defAvatar/default-avatar.png') }}" 
+         alt="Default avatar" class="rounded-circle me-3"
+         style="width:40px; height: 40px;">
+{% endif %}
                 <div>
+              <a href="{{ path('app_user', {id: follow.follower.id}) }}" class="text-decoration-none">
                   <h6 class="mb-0">{{ follow.follower.firstName }} {{ follow.follower.lastName }}</h6>
                   <small class="text-muted">{{ follow.follower.email }}</small>
+                  </a>
                 </div>
               </div>
             </li>
@@ -98,10 +109,20 @@
           {% for following in userFinded.following %}
             <li class="list-group-item">
               <div class="d-flex align-items-center">
-                <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="Avatar">
+                {% if following.followed.imageName is defined and following.followed.imageName is not empty %}
+    <img src="{{ vich_uploader_asset(following.followed, 'imageFile') }}"
+         alt="Generic placeholder image" class="rounded-circle me-3"
+         style="width:40px; height: 40px;">
+{% else %}
+    <img src="{{ asset('IMG/defAvatar/default-avatar.png') }}" 
+         alt="Default avatar" class="rounded-circle me-3"
+         style="width:40px; height: 40px;">
+{% endif %}
                 <div>
+                  <a href="{{ path('app_user', {id: following.followed.id}) }}" class="text-decoration-none">
                   <h6 class="mb-0">{{ following.followed.firstName }} {{ following.followed.lastName }}</h6>
                   <small class="text-muted">{{ following.followed.email }}</small>
+                  </a>
                 </div>
               </div>
             </li>
